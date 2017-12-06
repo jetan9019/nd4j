@@ -38,7 +38,7 @@ public class TFGraphTestList {
             //"mlp_00",
             //"mnist_00",
             //"transform_0",
-            "transpose",
+            //"transpose",
     };
     //change this to SAMEDIFF for samediff
     public static TFGraphTestAllHelper.ExecuteWith executeWith = ExecuteWith.SAMEDIFF;
