@@ -60,11 +60,10 @@ public class TFGraphTestAllHelper {
         String[] modelNames = modelDirNames(baseDir);
         List<Object[]> modelParams = new ArrayList<>();
         for (int i = 0; i < modelNames.length; i++) {
-            Object[] currentParams = new Object[4];
+            Object[] currentParams = new Object[3];
             currentParams[0] = inputVars(modelNames[i], baseDir); //input variable map - could be null
             currentParams[1] = outputVars(modelNames[i], baseDir); //saved off predictions
             currentParams[2] = modelNames[i];
-            currentParams[3] = intermediateVars(modelNames[i], baseDir); //intermediate map
             modelParams.add(currentParams);
         }
         return modelParams;
@@ -72,11 +71,10 @@ public class TFGraphTestAllHelper {
 
     protected static List<Object[]> fetchTestParams(String baseDir, String modelName) throws IOException {
         List<Object[]> modelParams = new ArrayList<>();
-        Object[] currentParams = new Object[4];
+        Object[] currentParams = new Object[3];
         currentParams[0] = inputVars(modelName, baseDir); //input variable map - could be null
         currentParams[1] = outputVars(modelName, baseDir); //saved off predictions
         currentParams[2] = modelName;
-        currentParams[3] = intermediateVars(modelName, baseDir); //intermediate map
         modelParams.add(currentParams);
         return modelParams;
     }
@@ -128,20 +126,20 @@ public class TFGraphTestAllHelper {
 
     }
 
-    public static void checkIntermediate(Map<String, INDArray> inputs, Map<String, INDArray> predictions, Map<String, INDArray[]> intermediates, String modelName, ExecuteWith execType) throws IOException {
+    public static void checkIntermediate(Map<String, INDArray> inputs, Map<String, INDArray> predictions, String modelName, ExecuteWith execType) throws IOException {
         if (execType.equals(ExecuteWith.SAMEDIFF)) {
-            checkIntermediate(inputs, predictions, intermediates, modelName, SAMEDIFF_DEFAULT_BASE_DIR, execType);
+            checkIntermediate(inputs, predictions, modelName, SAMEDIFF_DEFAULT_BASE_DIR, execType);
         } else if (execType.equals(ExecuteWith.LIBND4J)) {
-            checkIntermediate(inputs, predictions, intermediates, modelName, LIBND4J_DEFAULT_BASE_DIR, execType);
+            checkIntermediate(inputs, predictions, modelName, LIBND4J_DEFAULT_BASE_DIR, execType);
         }
     }
 
-    public static void checkIntermediate(Map<String, INDArray> inputs, Map<String, INDArray> predictions, Map<String, INDArray[]> intermediates, String modelName, String baseDir, ExecuteWith execType) throws IOException {
+    public static void checkIntermediate(Map<String, INDArray> inputs, Map<String, INDArray> predictions, String modelName, String baseDir, ExecuteWith execType) throws IOException {
         if (!execType.equals(ExecuteWith.SAMEDIFF)) {
             throw new IllegalArgumentException("Currently not supported");
         }
+        Map<String, INDArray[]> intermediates = intermediateVars(modelName, baseDir);
         Nd4j.EPS_THRESHOLD = 1e-4;
-        INDArray nd4jPred = null;
         Nd4j.getExecutioner().enableDebugMode(true);
         Nd4j.getExecutioner().enableVerboseMode(true);
         val graph = getGraph(baseDir, modelName);
