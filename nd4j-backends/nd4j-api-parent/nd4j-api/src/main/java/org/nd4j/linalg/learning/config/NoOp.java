@@ -42,11 +42,6 @@ public class NoOp implements IUpdater {
     }
 
     @Override
-    public boolean hasLrSchedule() {
-        return false;
-    }
-
-    @Override
     public void setLrAndSchedule(double lr, ISchedule lrSchedule) {
         throw new UnsupportedOperationException("Cannot set LR/schedule for NoOp updater");
     }

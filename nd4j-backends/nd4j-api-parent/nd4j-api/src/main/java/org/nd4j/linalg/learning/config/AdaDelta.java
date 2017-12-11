@@ -66,11 +66,6 @@ public class AdaDelta implements IUpdater {
     }
 
     @Override
-    public boolean hasLrSchedule() {
-        return false;
-    }
-
-    @Override
     public void setLrAndSchedule(double lr, ISchedule lrSchedule) {
         throw new UnsupportedOperationException("Cannot set learning rate or LR schedule: AdaDelta does not have a learning rate");
     }

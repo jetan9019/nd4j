@@ -73,11 +73,6 @@ public class Sgd implements IUpdater {
     }
 
     @Override
-    public boolean hasLrSchedule() {
-        return learningRateSchedule != null;
-    }
-
-    @Override
     public void setLrAndSchedule(double lr, ISchedule lrSchedule) {
         this.learningRate = lr;
         this.learningRateSchedule = lrSchedule;

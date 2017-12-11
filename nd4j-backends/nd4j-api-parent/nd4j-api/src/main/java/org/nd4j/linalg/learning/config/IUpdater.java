@@ -57,10 +57,16 @@ public interface IUpdater extends Serializable, Cloneable {
      */
     double getLearningRate(int iteration, int epoch);
 
+    /**
+     * @return True if the updater has a learning rate hyperparameter, false otherwise
+     */
     boolean hasLearningRate();
 
-    boolean hasLrSchedule();
-
+    /**
+     * Set the learning rate and schedule. Note: may throw an exception if {@link #hasLearningRate()} returns false.
+     * @param lr         Learning rate to set (typically not used if LR schedule is non-null)
+     * @param lrSchedule Learning rate schedule to set (may be null)
+     */
     void setLrAndSchedule(double lr, ISchedule lrSchedule);
 
 
